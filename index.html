@@ -21,8 +21,17 @@
     </style>
   </head>
   <body>
+    <audio id="player">
+      <source src="gong.mp3" type="audio/mpeg">
+    </audio>
     <div id="timer-sand"></div>
     <script>
+
+function gong() {
+  var player = document.getElementById('player')
+  player.currentTime = 0
+  player.play()
+}
 
 function setReminder(message, minutes, callback) {
   var aMinute = 60 * 1000
@@ -34,6 +43,7 @@ function setReminder(message, minutes, callback) {
 
   var interval = setInterval(function() {
     if (timeRemaining() < 0) {
+      gong()
       alert(message)
       clearInterval(interval)
       callback()
