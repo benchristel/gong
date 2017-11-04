@@ -27,9 +27,13 @@
     <div id="timer-sand"></div>
     <script>
 
-function gong() {
+var onFinishedPlaying
+function gong(_onFinishedPlaying) {
   var player = document.getElementById('player')
   player.currentTime = 0
+  player.removeEventListener('ended', onFinishedPlaying)
+  player.addEventListener('ended', _onFinishedPlaying)
+  onFinishedPlaying = _onFinishedPlaying
   player.play()
 }
 
@@ -43,10 +47,11 @@ function setReminder(message, minutes, callback) {
 
   var interval = setInterval(function() {
     if (timeRemaining() < 0) {
-      gong()
-      alert(message)
       clearInterval(interval)
-      callback()
+      gong(function() {
+        alert(message)
+        callback()
+      })
     }
 
     displaySand()
@@ -78,9 +83,6 @@ function takeABreak() {
 }
 
 pomodoro()
-
-
-
 
     </script>
   </body>
