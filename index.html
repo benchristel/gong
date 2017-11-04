@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gong</title>
+    <style type="text/css">
+      body {
+        min-height: 100vh;
+        background-color: #fff0e0;
+      }
+
+      #timer-sand {
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+        background-color: #500;
+        width: 300px;
+        height: 300px;
+        margin-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="timer-sand"></div>
+    <script>
+
+function setReminder(message, minutes, callback) {
+  var aMinute = 60 * 1000
+  var totalTime = minutes * aMinute
+  var endTime = now() + totalTime
+
+  var timerSand = document.getElementById('timer-sand')
+  displaySand()
+
+  var interval = setInterval(function() {
+    if (timeRemaining() < 0) {
+      alert(message)
+      clearInterval(interval)
+      callback()
+    }
+
+    displaySand()
+  }, 200)
+
+  function now() {
+    return +(new Date())
+  }
+
+  function timeRemaining() {
+    return endTime - now()
+  }
+
+  function sandWidth() {
+    return Math.sqrt(timeRemaining()) / 850
+  }
+
+  function displaySand() {
+    timerSand.style.transform = 'scale(' + sandWidth() + ')'
+  }
+}
+
+function pomodoro() {
+  setReminder('Take a break!', 12.5, takeABreak)
+}
+
+function takeABreak() {
+  setReminder('Back to work!', 2.5, pomodoro)
+}
+
+pomodoro()
+
+
+
+
+    </script>
+  </body>
+</html>
